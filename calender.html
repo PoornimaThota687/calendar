@@ -1,0 +1,115 @@
+
+ <!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>My Calender</title>
+	<style>
+		h1
+		{
+			text-align: center;
+		}
+		.header
+		{
+           color:red;
+           font-size: 20px;
+           margin:10px;
+		}
+		.field{
+			display:grid;
+			grid-template-columns: repeat(7, 40px);
+			gap:5px;
+		}
+		.day,.date
+		{
+			width:40px;
+			height:40px;
+			line-height: 40px;
+			border:1px solid black;
+			text-align: center;
+ 		}
+ 		.date:hover
+ 		{
+ 			color:blue;
+ 			background: yellow;
+ 			cursor:pointer;
+ 		}
+
+	</style>
+</head>
+<body>
+  <h1 > Calender</h1>
+  <select id="select">
+  	<script>
+  		let i;
+  		for(i=0;i<12;i++)
+  		{
+  				var date=new Date(2000,i,1);
+  				document.write(`<option value="${i}">${date.toLocaleString('default',{month:'long'})} </option>`);
+  		}
+  	</script>
+  </select>
+  &nbsp;
+  <label>YEAR </label>&nbsp;
+
+  <input type="number" id="year" value=2000>
+  <button onclick="poori()">Calender</button>
+  <div class="calender" >
+  	<div class="header" id="header"></div>
+  	<div class="field" id="field" ></div>
+  </div>
+
+  <script>
+  	function poori(){
+  	const year=parseInt(document.getElementById('year').value);
+  	const month=parseInt(document.getElementById('select').value);
+  	const header=document.getElementById("header");
+  	const field=document.getElementById("field");
+  	var date=new Date(year,month,1);
+  	const monthname=`${date.toLocaleString('default',{month:'long'})}`;
+  	header.innerHTML=`${year}${monthname}`;
+  	field.innerHTML="";
+  	//for days
+  	const days=['sun','mon','tues','wed','thu','fri','sat'];
+  	for(let day of days)
+  	{
+  		const div=document.createElement('div');
+  		div.className='day';
+  		div.innerHTML=day;
+  		field.appendChild(div);
+  	}
+  	//for empty spaces
+  	var firstday=new Date(year,month,1).getDay();
+  	for(let i=0;i<firstday;i++)
+  	{
+  		const div=document.createElement('div');
+  		div.className='date';
+  		div.innerHTML='';
+  		field.appendChild(div);
+
+  	}
+  	//upto last date
+  	var lastday=new Date(year,month+1,0).getDate();
+  	for(let i=1;i<=lastday;i++)
+  	{
+  		const div=document.createElement('div');
+  		div.className='date';
+  		div.innerHTML=i;
+  		div.addEventListener("click",function()
+  		{
+  			let promp=prompt("enter your tasks");
+  			if(promp!==null&&promp.trim()!=="")
+  			{
+  				div.title=promp;
+  			}
+  		})
+  	field.appendChild(div);
+  	}
+  	
+}
+  window.onload=poori;
+  </script>
+
+</body>
+</html> 
